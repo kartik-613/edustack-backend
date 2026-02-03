@@ -1,75 +1,53 @@
 # EduStack Backend
 
-EduStack Backend is a scalable REST API built with Node.js and Express that powers the EduStack education platform.  
-It handles authentication, role-based authorization, subscriptions, payments, and academic content management.
+EduStack Backend is a scalable REST API built with **Node.js**, **Express**, and **MongoDB**. It serves as the backbone for the EduStack platform, handling authentication, complex relationship mapping, and role-based access control.
 
 ---
 
-## About the Project
+## 🛠️ Core Responsibilities
 
-EduStack Backend is responsible for:
-- Secure user authentication
-- Role-based access control (Student, Teacher, Admin)
-- Subscription & payment handling
-- Structured academic content APIs
-- Admin moderation & system control
-
-It is designed to support a **large number of students and teachers** across multiple universities.
+- **Authentication & Authorization**: Secure JWT-based auth and granular role permissions (Student, Teacher, Admin).
+- **Academic Hierarchy**: Managing deep relationships between `Universities`, `Courses`, `Branches`, and `Subjects`.
+- **Content Management**: Secure handling of Syllabus, PYQs, Notes, and Answers with status approval workflows.
+- **Subscription Engine**: Integration with **Razorpay** for handling premium unlocks and user billing.
+- **Admin API**: Specialized endpoints for platform analytics, user moderation, and data management.
 
 ---
 
-## Core Responsibilities
-
-- User authentication using JWT
-- Role & permission management
-- Subscription lifecycle management
-- Razorpay payment integration
-- University → Course → Branch → Semester → Subject APIs
-- Premium content access control
-- Admin operations (users, content, payments)
-
----
-
-## High-Level Architecture (HLD)
+## 🏗️ High-Level Architecture (HLD)
 
 ```text
-Client (Frontend)
-   ↓
-REST API (Express.js)
-   ↓
-Auth Middleware (JWT)
-   ↓
-Role & Subscription Middleware
-   ↓
-Controllers (Business Logic)
-   ↓
-MongoDB (Database)
+Client (React App)
+   │
+   ▼
+REST API (Express / Node.js)
+   │
+   ├── Auth Middleware (JWT Validation)
+   ├── Role Middleware (Access Control)
+   └── Storage (MongoDB Cluster)
+```
 
-===========================================================
+---
 
-EduStack/
-│
-│
-├── backend/                  # Node + Express API
-│   ├── src/
-│   │   ├── config/           # DB, env, Razorpay
-│   │   ├── models/           # MongoDB schemas
-│   │   │   ├── User.js
-│   │   │   ├── University.js
-│   │   │   ├── Course.js
-│   │   │   ├── Subject.js
-│   │   │   ├── Content.js
-│   │   │   ├── Subscription.js
-│   │   │   └── Payment.js
-│   │   │
-│   │   ├── controllers/      # Business logic
-│   │   ├── routes/           # API routes
-│   │   ├── middleware/       # Auth, role, subscription
-│   │   ├── services/         # Payment, email
-│   │   ├── utils/
-│   │   └── app.js
-│   │
-│   └── server.js
-│
+## 📂 Project Structure
 
-===========================================================
+```text
+server/
+├── src/
+│   ├── models/           # Mongoose schemas (User, Content, Subject, etc.)
+│   ├── controllers/      # Request handlers & Business logic
+│   ├── routes/           # API Endpoint definitions
+│   ├── middleware/       # Auth & Role verification
+│   ├── config/           # DB connection & External services (Razorpay)
+│   └── app.js            # Express application setup
+└── server.js             # Server entry point & DB connection
+```
+
+---
+
+## 🚀 Getting Started
+
+1. Create a `.env` file based on the template.
+2. `npm install`
+3. `npm run dev` (requires nodemon) or `npm start`
+
