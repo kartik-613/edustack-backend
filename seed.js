@@ -12,56 +12,100 @@ const bcrypt = require('bcryptjs');
 dotenv.config();
 
 const universitiesData = [
-    { name: 'Dr. Harisingh Gour Vishwavidyalaya', city: 'Sagar', type: 'central' },
-    { name: 'Devi Ahilya Vishwavidyalaya (DAVV)', city: 'Indore', type: 'state_large' },
+    {
+        name: 'Dr. Harisingh Gour Vishwavidyalaya',
+        city: 'Sagar',
+        type: 'specific',
+        courses: [
+            { name: 'B.A.', semCount: 6, branches: ['General', 'Literature', 'Social Sciences'] },
+            { name: 'B.Sc.', semCount: 6, branches: ['Physics', 'Chemistry', 'Maths', 'Biology'] },
+            { name: 'B.Com.', semCount: 6, branches: ['General', 'Accounting'] },
+            { name: 'BBA', semCount: 6, branches: ['Management'] },
+            { name: 'BCA', semCount: 6, branches: ['Computer Applications'] },
+            { name: 'B.Lib.I.Sc.', semCount: 2, branches: ['Library Science'] },
+            { name: 'BFA', semCount: 8, branches: ['Fine Arts'] },
+            { name: 'BHMCT', semCount: 8, branches: ['Hotel Management'] },
+            { name: 'B.Pharm', semCount: 8, branches: ['Pharmacy'] },
+            { name: 'LLB / B.A. LL.B.', semCount: 10, branches: ['Law'] },
+            { name: 'B.Sc.B.Ed. / B.Ed.', semCount: 8, branches: ['Education'] },
+            { name: 'B.Tech / B.E.', semCount: 8, branches: ['CSE', 'ME', 'ECE', 'CE'] },
+            { name: 'M.A.', semCount: 4, branches: ['General'] },
+            { name: 'M.Sc.', semCount: 4, branches: ['General'] },
+            { name: 'M.Com.', semCount: 4, branches: ['General'] },
+            { name: 'MBA', semCount: 4, branches: ['Management'] },
+            { name: 'M.Tech', semCount: 4, branches: ['General'] },
+            { name: 'M.Pharm', semCount: 4, branches: ['General'] },
+            { name: 'MCA', semCount: 4, branches: ['General'] },
+            { name: 'M.Ed', semCount: 4, branches: ['General'] },
+            { name: 'MJMC', semCount: 4, branches: ['Journalism'] },
+            { name: 'MSW', semCount: 4, branches: ['Social Work'] },
+            { name: 'M.Lib.I.Sc.', semCount: 2, branches: ['Library Science'] }
+        ]
+    },
+    {
+        name: 'Devi Ahilya Vishwavidyalaya (DAVV)',
+        city: 'Indore',
+        type: 'specific',
+        courses: [
+            { name: 'B.E.', semCount: 8, branches: ['Computer Engineering', 'Mechanical Engineering', 'Information Technology', 'Electronics & Instrumentation', 'Electronics & Telecommunication', 'Civil Engineering'] },
+            { name: 'B.A.', semCount: 6, branches: ['Honours in Economics', 'Journalism & related fields'] },
+            { name: 'B.Sc.', semCount: 6, branches: ['Electronics', 'Computer Science', 'Mathematics', 'Yoga Science'] },
+            { name: 'B.S.W.', semCount: 6, branches: ['Social Work'] },
+            { name: 'B.P.E.S.', semCount: 6, branches: ['Physical Education & Sports'] },
+            { name: 'B.Voc.', semCount: 6, branches: ['General'] },
+            { name: 'B.Com.', semCount: 6, branches: ['Accounting', 'Tax Management', 'Honours'] },
+            { name: 'B.C.A.', semCount: 6, branches: ['Computer Applications'] },
+            { name: 'B.Pharm', semCount: 8, branches: ['Pharmacy'] }
+        ]
+    },
     { name: 'Barkatullah University', city: 'Bhopal', type: 'state_large' },
     { name: 'Awadhesh Pratap Singh University', city: 'Rewa', type: 'state_large' },
     { name: 'Jiwaji University', city: 'Gwalior', type: 'state_large' },
-    { name: 'Indira Gandhi National Tribal University (IGNTU)', city: 'Amarkantak', type: 'tribal' },
-    { name: 'Jawaharlal Nehru Agricultural University', city: 'Jabalpur', type: 'agri' },
-    { name: 'Madhya Pradesh Bhoj Open University', city: 'Bhopal', type: 'open' },
-    { name: 'Makhanlal Chaturvedi National University of Journalism', city: 'Bhopal', type: 'journalism' },
-    { name: 'National Law Institute University (NLIU)', city: 'Bhopal', type: 'law' },
-    { name: 'Rajiv Gandhi Technical University (RGPV)', city: 'Bhopal', type: 'tech_large' },
-    { name: 'Rajmata Vijayaraje Scindia Krishi Vishwa Vidyalaya', city: 'Gwalior', type: 'agri' },
-    { name: 'Rani Durgavati Vishwavidyalaya', city: 'Jabalpur', type: 'state_large' },
-    { name: 'Nanaji Deshmukh Veterinary Science University', city: 'Jabalpur', type: 'vet' },
+    { name: 'Vikram University', city: 'Ujjain', type: 'state_large' },
+    { name: 'Atal Bihari Vajpayee Hindi Vishwavidyalaya', city: 'Bhopal', type: 'state_large' },
+    { name: 'Madhya Pradesh Bhoj Open University', city: 'Bhopal', type: 'state_large' },
+    { name: 'Makhanlal Chaturvedi National University of Journalism & Communication', city: 'Bhopal', type: 'state_large' },
+    { name: 'National Law Institute University (NLIU)', city: 'Bhopal', type: 'state_large' },
+    { name: 'Rajiv Gandhi Prodoyogiki Vishwavidyalaya (RGPV)', city: 'Bhopal', type: 'tech_large' },
+    { name: 'Jawaharlal Nehru Krishi Vishwa Vidyalaya', city: 'Jabalpur', type: 'state_large' },
+    { name: 'Nanaji Deshmukh Veterinary Science University', city: 'Jabalpur', type: 'state_large' },
     { name: 'Madhya Pradesh Medical Science University', city: 'Jabalpur', type: 'medical_large' },
-    { name: 'Maharshi Panini Sanskrit Evam Vedic Vishwavidyalaya', city: 'Ujjain', type: 'sanskrit' },
-    { name: 'Mahatma Gandhi Chitrakoot Gramodaya University', city: 'Chitrakoot', type: 'rural' },
-    { name: 'Sanchi University of Buddhist-Indic Studies', city: 'Sanchi', type: 'sanskrit' },
-    { name: 'IIITDM Jabalpur', city: 'Jabalpur', type: 'iiit' },
-    { name: 'IIITM Gwalior', city: 'Gwalior', type: 'iiit' },
-    { name: 'Lakshmibai National University of Physical Education', city: 'Gwalior', type: 'sports' },
-    { name: 'AKS University', city: 'Satna', type: 'pvt_multi' },
-    { name: 'Amity University', city: 'Gwalior', type: 'pvt_multi' },
-    { name: 'Abhyuday University', city: 'Khargone', type: 'pvt_small' },
-    { name: 'Amaltas University', city: 'Dewas', type: 'medical_pvt' },
-    { name: 'Aryavart University', city: 'Sehore', type: 'pvt_small' },
-    { name: 'Avantika University', city: 'Ujjain', type: 'design' },
-    { name: 'Bhabha University', city: 'Bhopal', type: 'pvt_multi' },
-    { name: 'Chirayu University', city: 'Bhainsakhedi', type: 'medical_pvt' },
-    { name: 'Dr. A.P.J. Abdul Kalam University', city: 'Indore', type: 'pvt_multi' },
-    { name: 'Dr. Preeti Global University', city: 'Shivpuri', type: 'pvt_small' },
-    { name: 'Eklavya University', city: 'Damoh', type: 'pvt_multi' },
-    { name: 'G.H. Raisoni University', city: 'Chhindwara', type: 'pvt_multi' },
-    { name: 'Gyanodaya University', city: 'Neemuch', type: 'pvt_small' },
-    { name: 'Gyanveer University', city: 'Sagar', type: 'pvt_small' },
-    { name: 'ITM University', city: 'Gwalior', type: 'pvt_multi' },
-    { name: 'I.E.S. University', city: 'Bhopal', type: 'pvt_multi' },
-    { name: 'Jagran Lakecity University (JLU)', city: 'Bhopal', type: 'pvt_arts' },
-    { name: 'LNCT University', city: 'Bhopal', type: 'pvt_multi' },
-    { name: 'Mangalayatan University', city: 'Jabalpur', type: 'pvt_multi' },
-    { name: 'Malwanchal University', city: 'Indore', type: 'medical_pvt' },
-    { name: 'Mansarovar Global University', city: 'Sehore', type: 'pvt_multi' },
-    { name: 'Medi-Caps University', city: 'Indore', type: 'pvt_multi' },
-    { name: 'Mandsaur University', city: 'Mandsaur', type: 'pvt_multi' },
-    { name: 'Patel College (PCST University)', city: 'Bhopal', type: 'pvt_multi' },
-    { name: 'Rabindranath Tagore University', city: 'Bhopal', type: 'pvt_multi' },
-    { name: 'Sri Satya Sai University', city: 'Sehore', type: 'pvt_multi' },
+    { name: 'Maharshi Panini Sanskrit Evam Vedic Vishwavidyalaya', city: 'Ujjain', type: 'state_large' },
+    { name: 'Maharaja Chhatrasal Bundelkhand Vishwavidyalaya', city: 'Chhatarpur', type: 'state_large' },
+    { name: 'Dr. B.R. Ambedkar University of Social Sciences', city: 'Mhow', type: 'state_large' },
+    { name: 'Rajmata Vijayaraje Scindia Krishi Vishwa Vidyalaya', city: 'Gwalior', type: 'state_large' },
+    { name: 'Mahatma Gandhi Chitrakoot Gramodaya Vishwavidyalaya', city: 'Chitrakoot', type: 'state_large' },
+    { name: 'Indira Gandhi National Tribal University (Central University)', city: 'Amarkantak', type: 'central' },
+    { name: 'A.K.S. University', city: 'Satna', type: 'tech_large' },
+    { name: 'Abhyuday University', city: 'Khargone', type: 'tech_large' },
+    { name: 'Amity University', city: 'Gwalior', type: 'tech_large' },
+    { name: 'Aryavart University', city: 'Sehore', type: 'tech_large' },
+    { name: 'Avantika University', city: 'Ujjain', type: 'tech_large' },
+    { name: 'Bhabha University', city: 'Bhopal', type: 'tech_large' },
+    { name: 'Chirayu University', city: 'Bhainsakhedi', type: 'medical_large' },
+    { name: 'Dr. A.P.J. Abdul Kalam University', city: 'Indore', type: 'tech_large' },
+    { name: 'Dr. Preeti Global University', city: 'Shivpuri', type: 'tech_large' },
+    { name: 'Eklavya University', city: 'Damoh', type: 'tech_large' },
+    { name: 'G.H. Raisoni University', city: 'Chhindwara', type: 'tech_large' },
+    { name: 'Gyanodaya University', city: 'Neemuch', type: 'tech_large' },
+    { name: 'Gyanveer University', city: 'Sagar', type: 'tech_large' },
+    { name: 'ITM University', city: 'Gwalior', type: 'tech_large' },
+    { name: 'I.E.S. University', city: 'Bhopal', type: 'tech_large' },
+    { name: 'Jagran Lakecity University', city: 'Bhopal', type: 'tech_large' },
+    { name: 'LNCT University', city: 'Bhopal', type: 'tech_large' },
+    { name: 'Malwanchal University', city: 'Indore', type: 'medical_large' },
+    { name: 'Mansarovar Global University', city: 'Sehore', type: 'tech_large' },
+    { name: 'Mangalayatan University', city: 'Jabalpur', type: 'tech_large' },
+    { name: 'Medi-Caps University', city: 'Indore', type: 'tech_large' },
+    { name: 'Mandsaur University', city: 'Mandsaur', type: 'tech_large' },
+    { name: 'Madhyanchal Professional University', city: 'Bhopal', type: 'tech_large' },
+    { name: 'Patel College of Science & Technology (University Status)', city: 'Bhopal', type: 'tech_large' },
+    { name: 'Raja Mansingh Tomar Music & Arts University', city: 'Gwalior', type: 'state_large' },
+    { name: 'Sri Satya Sai University of Technology & Medical Sciences', city: 'Sehore', type: 'tech_large' },
     { name: 'Swami Vivekanand University', city: 'Sagar', type: 'tech_large' },
-    { name: 'Symbiosis University', city: 'Indore', type: 'pvt_multi' },
-    { name: 'Techno Global University', city: 'Vidisha', type: 'pvt_multi' }
+    { name: 'Symbiosis University of Applied Sciences', city: 'Indore', type: 'tech_large' },
+    { name: 'Techno Global University', city: 'Vidisha', type: 'tech_large' },
+    { name: 'VIT Bhopal University (part of VIT group)', city: 'Bhopal', type: 'tech_large' }
 ];
 
 const courseTemplates = {
@@ -82,6 +126,11 @@ const courseTemplates = {
     medical_large: [
         { name: 'MBBS', semCount: 9, branches: ['General'] },
         { name: 'B.Sc Nursing', semCount: 8, branches: ['General'] }
+    ],
+    central: [
+        { name: 'B.Tech', semCount: 8, branches: ['Computer Science', 'IT'] },
+        { name: 'B.A', semCount: 6, branches: ['History', 'Political Science'] },
+        { name: 'M.A', semCount: 4, branches: ['Sociology', 'English'] }
     ]
 };
 
@@ -102,7 +151,7 @@ const subjectsBySem = {
         3: ['Cloud Infra', 'Seminar'],
         4: ['Dissertation Phase-II']
     },
-    'B.A': {
+    'B.A.': {
         1: ['Hindi Literature-I', 'English Language-I'],
         2: ['Hindi Literature-II', 'English Language-II'],
         3: ['History of India', 'Political Science-I'],
@@ -117,7 +166,7 @@ const defaultSubjects = ['Foundation Course-I', 'Foundation Course-II', 'Electiv
 const seedData = async () => {
     try {
         await connectDB();
-        console.log('--- RE-SEEDING WITH FULL SEMESTERS & SUBJECTS ---');
+        console.log('--- RE-SEEDING WITH UNIVERSITY SPECIFIC OVERRIDES ---');
 
         await University.deleteMany();
         await Course.deleteMany();
@@ -130,11 +179,11 @@ const seedData = async () => {
             const uni = await University.create({
                 name: uniData.name,
                 city: uniData.city,
-                description: `${uniData.type.toUpperCase()} University in ${uniData.city}`,
+                description: `${uniData.name} located in ${uniData.city}, Madhya Pradesh.`,
                 logo: '🏫'
             });
 
-            const templates = courseTemplates[uniData.type] || courseTemplates.state_large;
+            const templates = uniData.type === 'specific' ? uniData.courses : (courseTemplates[uniData.type] || courseTemplates.state_large);
 
             for (const temp of templates) {
                 const course = await Course.create({
@@ -196,7 +245,7 @@ const seedData = async () => {
             console.log(`✓ Seeded ${uni.name}`);
         }
 
-        console.log('--- DATABASE SUCCESSFULLY RE-SEEDED WITH FULL STRUCTURE ---');
+        console.log('--- DATABASE SUCCESSFULLY RE-SEEDED WITH OVERWRITTEN DATA ---');
         process.exit();
     } catch (e) {
         console.error('Seeding Error:', e);
